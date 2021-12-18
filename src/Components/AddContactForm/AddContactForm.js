@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import s from './AddContactForm.module.css';
 import CONFIG from '../../Data/inputConfig.json';
 import { nanoid } from 'nanoid';
@@ -70,3 +71,7 @@ export default function AddContactForm({ onSubmit }) {
     </form>
   );
 }
+
+AddContactForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
