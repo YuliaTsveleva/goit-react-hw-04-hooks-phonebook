@@ -6,11 +6,12 @@ import ContactList from './Components/ContactList';
 import Filter from './Components/Filter';
 import EmptyText from './Components/EmptyText';
 import { nanoid } from 'nanoid';
-export default function App() {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
 
-  console.log(contacts);
+export default function App() {
+  const [contacts, setContacts] = useState(
+    JSON.parse(localStorage.getItem('contacts')) ?? [],
+  );
+  const [filter, setFilter] = useState('');
 
   const addContact = ({ name, number, email }) => {
     const alreadyExist = contacts.find(
@@ -37,14 +38,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
-    if (parsedContacts) {
-      setContacts(parsedContacts);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
+    window.localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   return (

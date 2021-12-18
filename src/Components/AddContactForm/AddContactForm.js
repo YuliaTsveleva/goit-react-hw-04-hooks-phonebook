@@ -51,7 +51,6 @@ export default function AddContactForm({ onSubmit }) {
               id={nanoid()}
               // value={[field.name].value}
               value={states[field.id - 1]}
-              // разобраться
               onChange={handleChange}
               className={s.Input}
               type={field.type}
