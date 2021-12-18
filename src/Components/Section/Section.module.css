@@ -1,0 +1,13 @@
+.Section {
+  padding: 20px 30px;
+}
+
+.Section:first-child {
+  margin-right: 50px;
+}
+
+
+.Title {
+  color: rgb(9, 108, 255);
+  padding: 10px;
+}
