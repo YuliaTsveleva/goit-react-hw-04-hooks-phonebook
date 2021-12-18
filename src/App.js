@@ -8,9 +8,9 @@ import EmptyText from './Components/EmptyText';
 import { nanoid } from 'nanoid';
 
 export default function App() {
-  const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem('contacts')) ?? [],
-  );
+  const [contacts, setContacts] = useState(() => {
+    return JSON.parse(localStorage.getItem('contacts')) ?? [];
+  });
   const [filter, setFilter] = useState('');
 
   const addContact = ({ name, number, email }) => {
@@ -27,6 +27,7 @@ export default function App() {
     } else if (name === '' || number === '') {
       alert('Fill in all the fields please!');
     }
+    setFilter('');
   };
 
   const changeFilter = e => {
@@ -41,6 +42,10 @@ export default function App() {
     window.localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase()),
+  );
+
   return (
     <div className="App">
       <Section title="Phonebook">
@@ -54,7 +59,10 @@ export default function App() {
             total={contacts.length}
           />
         )}
-        <ContactList contacts={contacts} onClick={removeContact}></ContactList>
+        <ContactList
+          contacts={filteredContacts}
+          onClick={removeContact}
+        ></ContactList>
         {contacts.length === 0 && <EmptyText />}
       </Section>
     </div>
