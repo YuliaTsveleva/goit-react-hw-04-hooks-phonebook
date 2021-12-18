@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import s from './AddContactForm.module.css';
 import CONFIG from '../../Data/inputConfig.json';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 
 export default function AddContactForm({ onSubmit }) {
@@ -39,7 +39,7 @@ export default function AddContactForm({ onSubmit }) {
   };
 
   const states = [name, number, email];
-  // разобраться с value инпута
+  // временно, нкжно разобраться с value инпута
 
   return (
     <form className={s.Form} autoComplete="off" onSubmit={handleSubmit}>
