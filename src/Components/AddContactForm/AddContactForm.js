@@ -1,61 +1,72 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import s from './AddContactForm.module.css';
 import CONFIG from '../../Data/inputConfig.json';
 import { nanoid } from 'nanoid';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 
-class AddContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-    email: '',
+export default function AddContactForm({ onSubmit }) {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  const [email, setEmail] = useState('');
+
+  const handleChange = e => {
+    switch (e.target.name) {
+      case 'name':
+        setName(e.target.value);
+        break;
+      case 'number':
+        setNumber(e.target.value);
+        break;
+      case 'email':
+        setEmail(e.target.value);
+        break;
+      default:
+        return;
+    }
   };
 
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state);
-    this.setState({
-      name: '',
-      number: '',
-      email: '',
-    });
+    onSubmit({ name, number, email });
+    resetState();
   };
 
-  render() {
-    return (
-      <form className={s.Form} autoComplete="off" onSubmit={this.handleSubmit}>
-        {CONFIG.map(field => (
-          <div key={field.name}>
-            <label className={s.Label}>
-              {field.label}
-              <input
-                id={nanoid()}
-                value={this.state[field.name]}
-                onChange={this.handleChange}
-                className={s.Input}
-                type={field.type}
-                name={field.name}
-                pattern={field.pattern}
-                title={field.title}
-                required={field.required}
-              />
-            </label>
-          </div>
-        ))}
-        <p className={s.Reminder}>Fields marked with * are required</p>
-        <button className={s.Button} type="submit">
-          <AiOutlineUserAdd className={s.Icon} size={16} />
-          Add contact
-        </button>
-      </form>
-    );
-  }
-}
+  const resetState = () => {
+    setName('');
+    setNumber('');
+    setEmail('');
+  };
 
-export default AddContactForm;
+  const states = [name, number, email];
+  // разобраться с value инпута
+
+  return (
+    <form className={s.Form} autoComplete="off" onSubmit={handleSubmit}>
+      {CONFIG.map(field => (
+        <div key={field.name}>
+          <label className={s.Label}>
+            {field.label}
+            <input
+              id={nanoid()}
+              // value={[field.name].value}
+              value={states[field.id - 1]}
+              // разобраться
+              onChange={handleChange}
+              className={s.Input}
+              type={field.type}
+              name={field.name}
+              pattern={field.pattern}
+              title={field.title}
+              required={field.required}
+            />
+          </label>
+        </div>
+      ))}
+      <p className={s.Reminder}>Fields marked with * are required</p>
+      <button className={s.Button} type="submit">
+        <AiOutlineUserAdd className={s.Icon} size={16} />
+        Add contact
+      </button>
+    </form>
+  );
+}
