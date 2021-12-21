@@ -39,7 +39,7 @@ export default function AddContactForm({ onSubmit }) {
   };
 
   const states = [name, number, email];
-  // временно, нкжно разобраться с value инпута
+  // разобраться с value инпута?
 
   return (
     <form className={s.Form} autoComplete="off" onSubmit={handleSubmit}>
