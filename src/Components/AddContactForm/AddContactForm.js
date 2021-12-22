@@ -29,6 +29,7 @@ export default function AddContactForm({ onSubmit }) {
   const handleSubmit = e => {
     e.preventDefault();
     onSubmit({ name, number, email });
+    e.target.reset();
     resetState();
   };
 
@@ -38,9 +39,6 @@ export default function AddContactForm({ onSubmit }) {
     setEmail('');
   };
 
-  const states = [name, number, email];
-  // разобраться с value инпута?
-
   return (
     <form className={s.Form} autoComplete="off" onSubmit={handleSubmit}>
       {CONFIG.map(field => (
@@ -49,8 +47,7 @@ export default function AddContactForm({ onSubmit }) {
             {field.label}
             <input
               id={field.id}
-              // value={[field.name].value}
-              value={states[field.id - 1]}
+              value={[field.name].value}
               onChange={handleChange}
               className={s.Input}
               type={field.type}

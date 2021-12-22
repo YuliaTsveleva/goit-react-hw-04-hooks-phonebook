@@ -6,11 +6,10 @@ import ContactList from './Components/ContactList';
 import Filter from './Components/Filter';
 import EmptyText from './Components/EmptyText';
 import { nanoid } from 'nanoid';
+import { useLocalStorage } from './Hooks/UseLocalStorage';
 
 export default function App() {
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(localStorage.getItem('contacts')) ?? [];
-  });
+  const [contacts, setContacts] = useLocalStorage('contacts', []);
   const [filter, setFilter] = useState('');
 
   const addContact = ({ name, number, email }) => {
@@ -39,12 +38,13 @@ export default function App() {
   };
 
   useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+    setContacts(contacts);
+  }, [contacts, setContacts]);
 
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase()),
-  );
+  const filteredContacts = contacts.filter(contact => {
+    const normFilter = filter.toLowerCase();
+    return contact.name.toLowerCase().includes(normFilter);
+  });
 
   return (
     <div className="App">
